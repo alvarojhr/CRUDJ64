@@ -1,18 +1,21 @@
 package Model.Models;
 
-public class Inventario {
+public class Producto {
     private int id;
     private String nombre;
     private int cantidad;
     private double costoUnitario;
     private double valorVenta;
 
-    public Inventario(int id, String nombre, int cantidad, double costoUnitario, double valorVenta) {
+    public Producto(int id, String nombre, int cantidad, double costoUnitario, double valorVenta) {
         this.id = id;
         this.nombre = nombre;
         this.cantidad = cantidad;
         this.costoUnitario = costoUnitario;
         this.valorVenta = valorVenta;
+    }
+
+    public Producto() {
     }
 
     public int getId() {
