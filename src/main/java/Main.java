@@ -5,15 +5,18 @@ import View.Screen;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         //Levantamos la conexion a la BD
         Crud.setConnection(DbConection.connect());
 
-        Screen.listProducts();
+
+        //Screen.listProducts();
         //Screen.createProduct();
-        Screen.deleteProduct();
+        //Screen.deleteProduct();
+        Screen.updateProduct();
 
         //Cerramos la conexion a la BD
         try {
