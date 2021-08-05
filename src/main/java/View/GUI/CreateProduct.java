@@ -23,7 +23,7 @@ public class CreateProduct extends JFrame{
     public CreateProduct(String title){
         super(title);
 
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(principalPanel);
         this.pack();
 
@@ -32,7 +32,6 @@ public class CreateProduct extends JFrame{
         aceptarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
 
                 String nombre = nombreField.getText();
                 int cantidad = Integer.parseInt(cantidadSpinner.getValue().toString());
@@ -59,20 +58,20 @@ public class CreateProduct extends JFrame{
                 }else{
                     System.out.println("Los valores ingresados son inválidos. Por favor, verifíquelos.");
                 }
-
-
             }
         });
 
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                System.out.println("Bye bye");
-                try {
-                    Crud.getConnection().close();
-                } catch (SQLException exc) {
-                    System.out.println("[CONNECTION] "+exc);
-                }
+                Home.setIsCreating(false);
+            }
+        });
+        cancelarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Home.setIsCreating(false);
+                dispose();
             }
         });
     }

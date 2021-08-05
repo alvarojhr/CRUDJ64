@@ -19,6 +19,22 @@ public class Inventario {
         return result;
     }
 
+    public static String[][] getInventario(){
+        ArrayList<Producto> data = Crud.read();
+        String[][] result = new String[data.size()][5];
+
+        int indexAppend =0;
+
+        for (Producto producto : data) {
+            String[] dataProducto = {String.valueOf(producto.getId()),producto.getNombre(),String.valueOf(producto.getCantidad()),
+                                    String.valueOf(producto.getCostoUnitario()),String.valueOf(producto.getValorVenta())};
+            result[indexAppend] = dataProducto;
+            indexAppend++;
+        }
+
+        return result;
+    }
+
     public static String insertProduct(Producto producto){
         String output = "";
         calcularGanancia(producto);
