@@ -12,9 +12,9 @@ import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
 public class Home extends JFrame{
-    private JButton button1;
+    private JButton crearButton;
     private JButton editarButton;
-    private JButton button3;
+    private JButton eliminarButton;
     private JPanel homePanel;
     private JTable table1;
     private JButton refrescarButton;
@@ -30,14 +30,13 @@ public class Home extends JFrame{
 
         loadData();
 
-        button1.addActionListener(new ActionListener() {
+        crearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
                 //Con esto, abrimos la ventana para crear
                 if(!isCreating) {
-                    JFrame ventana = new CreateProduct("Creación de productos");
-                    ventana.setVisible(true);
+                    showEditCreate();
                 }
                 isCreating = true;
             }
@@ -60,6 +59,37 @@ public class Home extends JFrame{
                 loadData();
             }
         });
+        eliminarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int filaSeleccionada = table1.getSelectedRow();
+                if (filaSeleccionada>=0) {
+                    int idSelecccionado = Integer.parseInt(table1.getModel().getValueAt(filaSeleccionada, 0).toString());
+                    Inventario.deleteProduct(idSelecccionado);
+                    loadData();
+                }
+            }
+        });
+
+        editarButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int filaSeleccionada = table1.getSelectedRow();
+                if (filaSeleccionada >= 1) {
+                    int idSelecccionado = Integer.parseInt(table1.getModel().getValueAt(filaSeleccionada, 0).toString());
+
+                    String nombre = table1.getModel().getValueAt(filaSeleccionada, 1).toString();
+                    int cantidad = Integer.parseInt(table1.getModel().getValueAt(filaSeleccionada, 2).toString());
+                    String costoUnitario = table1.getModel().getValueAt(filaSeleccionada, 3).toString();
+
+                    if (!isCreating) {
+                        CreateProduct ventana = showEditCreate();
+                        ventana.loadEdit(idSelecccionado,nombre,cantidad,costoUnitario);
+                    }
+                    isCreating = true;
+                }
+            }
+        });
     }
 
     public static void setIsCreating(boolean isCreating) {
@@ -72,4 +102,12 @@ public class Home extends JFrame{
         DefaultTableModel dataModel = new DefaultTableModel(data,columns);
         table1.setModel(dataModel);
     }
+
+    public CreateProduct showEditCreate(){
+        CreateProduct ventana = new CreateProduct("Creación de productos");
+        ventana.setVisible(true);
+        return ventana;
+    }
+
+
 }

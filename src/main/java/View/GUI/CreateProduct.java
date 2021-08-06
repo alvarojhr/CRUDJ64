@@ -19,6 +19,7 @@ public class CreateProduct extends JFrame{
     private JButton aceptarButton;
     private JFormattedTextField costoFormatted;
     private Producto producto;
+    private boolean isEditing = false;
 
     public CreateProduct(String title){
         super(title);
@@ -50,7 +51,12 @@ public class CreateProduct extends JFrame{
                     producto.setCantidad(cantidad);
                     producto.setCostoUnitario(costoU);
 
-                    System.out.println(Inventario.insertProduct(producto));
+                    if (isEditing){
+                        Inventario.updateProducto(producto);
+                        closeWindow();
+                    }else {
+                        System.out.println(Inventario.insertProduct(producto));
+                    }
 
                     nombreField.setText("");
                     cantidadSpinner.setValue(0);
@@ -70,9 +76,21 @@ public class CreateProduct extends JFrame{
         cancelarButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Home.setIsCreating(false);
-                dispose();
+                closeWindow();
             }
         });
+    }
+
+    public void loadEdit(int id, String nombre, int cantidad, String costo){
+        nombreField.setText(nombre);
+        cantidadSpinner.setValue(cantidad);
+        costoFormatted.setText(costo);
+        producto.setId(id);
+        isEditing = true;
+    }
+
+    private void closeWindow() {
+        Home.setIsCreating(false);
+        dispose();
     }
 }
